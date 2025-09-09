@@ -1,0 +1,27 @@
+## Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+## Virtual environments
+.venv/
+
+## Local environment files
+.env
+.env.*
+env.local
+.env.local
+.env.production
+
+## OS / editor junk
+.DS_Store
+
+## Evaluation artifacts & logs
+eval_results.csv
+logs/
+
+## Jupyter cache (if created later)
+.ipynb_checkpoints/
