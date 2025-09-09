@@ -1,0 +1,7 @@
+質問,回答,正解
+"『Northern Territory』という文字列に含まれる 'r' の数はいくつ？数値のみで答えてください。","3","5"
+"『blueberry』という単語に含まれる 'b' の数はいくつ？数値のみで答えてください。","3","2"
+"米国の州名のうち、名前に 'r' を含む州をアルファベット順でカンマ区切りで列挙してください。州名のみを出力。","（観測例）正しい州に加えて「Krizona」「Vermoni」等の綴り誤り、架空の「New Jefst」「Mitroinia」、California重複などを混入","Arizona, Arkansas, California, Colorado, Delaware, Florida, Georgia, Maryland, Missouri, Nebraska, New Hampshire, New Jersey, New York, North Carolina, North Dakota, Oregon, Rhode Island, South Carolina, Vermont, Virginia, West Virginia"
+"『Northern Territory』を正確に綴って出力してください（大小文字・スペースを含めてその語句のみ）。","Northan Territor","Northern Territory"
+"『DEEPSEEK』という文字列に含まれる 'D' の数はいくつ？数値のみで答えてください。","2","1"
+"Adam Tauman Kalai の博士論文のタイトルは？タイトルのみを正確に出力してください。","Boosting, Online Algorithms, and Other Topics in Machine Learning","Probabilistic and On-line Methods in Machine Learning"
