@@ -1,23 +1,34 @@
 # hallucination-test
 
-TechnoEdge が紹介した OpenAI + Georgia Tech の新論文「Why Language Models Hallucinate」で述べられる
-「確信度しきい値＋減点容認」の抑制プロンプトが有効かを、最小構成でA/B検証できるリポジトリです。
+最初に「何をしたか（やったこと）」と「結果（結論）」を示します。
+
+## 実施内容と結論（最初に読む）
+- やったこと
+  - TechnoEdge が紹介した OpenAI + Georgia Tech の新論文に基づき、「確信度しきい値（≥75%）＋減点容認（正答+1/誤答-2/無回答0）」の抑制プロンプトが本当に効くかを、A/B（プロンプトなし vs あり）で検証しました。
+  - データセット（観測例）をCSV化し、OpenAI Responses API を使う検証スクリプトで同一設問を2条件実行。モデルは gpt‑5（必要に応じて gpt‑4o‑mini でも再現可）。
+  - gpt‑5 の仕様に合わせ、`input_text` 形式＋ `reasoning.effort=minimal` ＋ `max_output_tokens>=16` で安定取得するよう実装。
+- 結果（gpt‑5, 2025‑09‑09）
+  - 知識系（列挙/固有名）では「誤答→わからない」へ切り替わり、減点を回避（例: 米州リスト、Kalai 論文タイトル）。
+  - 単純カウント（“Northern Territory” の 'r'）は未改善。
+  - 簡易スコア: ベースライン -3 → 抑制あり +1（正3/誤1/無回答2）。
+- 最短再現
+  ```bash
+  export OPENAI_API_KEY=sk-...
+  uv sync
+  uv run python scripts/eval_hallucination_prompt.py \
+    --input scripts/gpt5_hallucinations.csv \
+    --model gpt-5 \
+    --prompt-file scripts/suppression_prompt.txt
+  ```
 
 - リポジトリ: https://github.com/noricha-vr/hallucination-test
 
-## TL;DR
-- 同一の設問を「プロンプトなし」と「抑制プロンプトあり」で実行し、出力を並べて比較します。
-- gpt‑5 の Responses API 仕様（`input_text`、`reasoning.effort=minimal`、`max_output_tokens>=16`）に対応済み。
-- 結果は `eval_results.csv`、ログは `logs/*.jsonl` に保存されます。
+---
 
-```bash
-export OPENAI_API_KEY=sk-...
-uv sync
-uv run python scripts/eval_hallucination_prompt.py \
-  --input scripts/gpt5_hallucinations.csv \
-  --model gpt-5 \
-  --prompt-file scripts/suppression_prompt.txt
-```
+## TL;DR（やれること）
+- 同一の設問を「プロンプトなし」と「抑制プロンプトあり」で実行し、出力を比較。
+- gpt‑5 の Responses API 仕様（`input_text`、`reasoning.effort=minimal`、`max_output_tokens>=16`）に対応済み。
+- 結果は `eval_results.csv`、ログは `logs/*.jsonl` に保存。
 
 ## できること
 - A/B 実行: ベースライン（プロンプトなし） vs 抑制プロンプトあり
@@ -142,4 +153,3 @@ sed -n '1,80p' eval_results.csv
 - 依存は uv / pyproject で管理。実行は `uv run` 推奨
 - ログは `logger`（JSON）に集約。print は使用しません
 - 生成物・ログは `.gitignore` で除外しています
-
